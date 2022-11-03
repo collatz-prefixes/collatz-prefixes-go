@@ -20,11 +20,3 @@ func Copy(n *big.Int) *big.Int {
 func IsEven(n *big.Int) bool {
 	return n.Bit(0) == 0
 }
-
-// Pop the last element from a slice
-func Pop(arr *[]uint) uint {
-	len := len(*arr)
-	rv := (*arr)[len-1]
-	*arr = (*arr)[:len-1]
-	return rv
-}

@@ -5,18 +5,7 @@ import (
 	"math/big"
 )
 
-func PrefixIterate(n *big.Int, pf []uint) *big.Int {
-	if len(pf) == 0 {
-		return n
-	}
-	n.Div(n, c.T.Rsh(c.ONE, pf[0]))
-	for i := 1; i < len(pf); i++ {
-		n.Mul(n, c.THREE).Add(n, c.ONE)
-		n.Div(n, c.T.Rsh(c.ONE, pf[i]-pf[i-1]))
-	}
-	return n
-}
-
+// Returns the prefix of two numbers
 func PrefixFind(n *big.Int, m *big.Int) []uint {
 	ans := make([]uint, 0)
 	twos := uint(0)
@@ -32,16 +21,42 @@ func PrefixFind(n *big.Int, m *big.Int) []uint {
 			n.Mul(n, c.THREE).Add(n, c.ONE)
 			m.Mul(m, c.THREE).Add(m, c.ONE)
 		} else {
+			// they are of different parity
 			break
 		}
 	}
 	return ans
 }
 
+func PrefixIterate(n *big.Int, pf []uint) *big.Int {
+	if len(pf) == 0 {
+		return n
+	}
+	n.Div(n, c.T.Rsh(c.ONE, pf[0]))
+	for i := 1; i < len(pf); i++ {
+		n.Mul(n, c.THREE).Add(n, c.ONE)
+		n.Div(n, c.T.Rsh(c.ONE, pf[i]-pf[i-1]))
+	}
+	return n
+}
+
 func PrefixMapToNum(pf []uint) *big.Int {
 	ans := big.NewInt(0)
 	for i := 0; i < len(pf); i++ {
 		ans.Add(ans, c.T.Rsh(c.ONE, pf[i]))
+	}
+	return ans
+}
+
+func PrefixMapFromNum(n *big.Int) []uint {
+	ans := make([]uint, 0)
+	var b uint = 0 // TODO: better var name?
+	for n.Cmp(c.ZERO) == 1 {
+		if !c.IsEven(n) {
+			ans = append(ans, b)
+		}
+		b++
+		n.Rsh(n, 1)
 	}
 	return ans
 }
