@@ -21,8 +21,7 @@ func PrefixFind(n *big.Int, m *big.Int) []uint {
 			n.Mul(n, c.THREE).Add(n, c.ONE)
 			m.Mul(m, c.THREE).Add(m, c.ONE)
 		} else {
-			// they are of different parity
-			break
+			break // they are of different parity
 		}
 	}
 	return ans
@@ -32,7 +31,11 @@ func PrefixIterate(n *big.Int, pf []uint) *big.Int {
 	if len(pf) == 0 {
 		return n
 	}
+
+	// R_0 function
 	n.Div(n, c.T.Rsh(c.ONE, pf[0]))
+
+	// R function
 	for i := 1; i < len(pf); i++ {
 		n.Mul(n, c.THREE).Add(n, c.ONE)
 		n.Div(n, c.T.Rsh(c.ONE, pf[i]-pf[i-1]))
@@ -40,6 +43,7 @@ func PrefixIterate(n *big.Int, pf []uint) *big.Int {
 	return n
 }
 
+// Bijective mapping from a list of ascending numbers to an integer
 func PrefixMapToNum(pf []uint) *big.Int {
 	ans := big.NewInt(0)
 	for i := 0; i < len(pf); i++ {
@@ -48,6 +52,7 @@ func PrefixMapToNum(pf []uint) *big.Int {
 	return ans
 }
 
+// Bijective mapping from a list of ascending numbers to an integer
 func PrefixMapFromNum(n *big.Int) []uint {
 	ans := make([]uint, 0)
 	var b uint = 0 // TODO: better var name?
@@ -61,6 +66,7 @@ func PrefixMapFromNum(n *big.Int) []uint {
 	return ans
 }
 
+// Add prefixes.
 func PrefixAdd(pf1 []uint, pf2 []uint) []uint {
 	if len(pf1) == 0 {
 		return pf2

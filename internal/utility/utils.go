@@ -14,7 +14,7 @@ func NTOP(n *big.Int) []bool {
 	return b
 }
 
-// Finds the number from a path
+// Finds the number from a path.
 func PTON(p []bool) *big.Int {
 	FLIP(p)         // flip
 	REVERSE(p)      // reverse
@@ -35,6 +35,7 @@ func BTON(b []bool) *big.Int {
 	return n
 }
 
+// Convert a number to binary format.
 func NTOB(n *big.Int) []bool {
 	b := make([]bool, 0)
 	for n.Cmp(c.ZERO) != 0 {
