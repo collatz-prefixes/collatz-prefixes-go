@@ -1,4 +1,4 @@
-package collatz_prefixes
+package collatz
 
 import "math/big"
 
@@ -13,8 +13,9 @@ func IterativePathExtension(n *big.Int, prefixFinder func(p []bool) []uint) []ui
 }
 
 func IterativePrefix(n *big.Int, prefixFinder func(n *big.Int) []uint) []uint {
+	var pf []uint
+
 	ans := make([]uint, 0)
-	pf := make([]uint, 0)
 	for {
 		pf = prefixFinder(n)
 		ans = PrefixAdd(ans, pf)

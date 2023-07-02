@@ -1,4 +1,4 @@
-package collatz_prefixes
+package collatz
 
 import "math/big"
 

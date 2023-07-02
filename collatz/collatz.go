@@ -1,9 +1,10 @@
-package collatz_prefixes
+package collatz
 
 import "math/big"
 
 // Collatz length is the number of iterations it takes to reach n to 1,
 func CollatzLength(n *big.Int) uint {
+	n = Copy(n)
 	var ans uint = 0
 	for !IsOne(n) {
 		ans++
@@ -18,6 +19,7 @@ func CollatzLength(n *big.Int) uint {
 
 // Collatz Sequence is the array of numbers seen during iterations until 1 is reached.
 func CollatzSeqeunce(n *big.Int) []*big.Int {
+	n = Copy(n)
 	ans := make([]*big.Int, 0)
 	for !IsOne(n) {
 		ans = append(ans, Copy(n))
@@ -32,7 +34,12 @@ func CollatzSeqeunce(n *big.Int) []*big.Int {
 
 // Reduced Collatz Sequence is the array of odd numbers seen during iterations until 1 is reached.
 func CollatzReducedSeqeunce(n *big.Int) []*big.Int {
+	n = Copy(n)
 	ans := make([]*big.Int, 0)
+	if IsEven(n) {
+		ans = append(ans, Copy(n))
+	}
+
 	for !IsOne(n) {
 		if IsEven(n) {
 			n.Rsh(n, 1)
@@ -41,12 +48,14 @@ func CollatzReducedSeqeunce(n *big.Int) []*big.Int {
 			n.Mul(n, THREE).Add(n, ONE)
 		}
 	}
+
 	ans = append(ans, Copy(ONE))
 	return ans
 }
 
 // Find ECF (Exponential Canonical Form) of a number.
 func CollatzECF(n *big.Int) []uint {
+	n = Copy(n)
 	ans := make([]uint, 0)
 	twos := uint(0)
 	for !IsOne(n) {

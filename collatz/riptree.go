@@ -1,4 +1,4 @@
-package collatz_prefixes
+package collatz
 
 import "math/big"
 
@@ -6,6 +6,9 @@ import "math/big"
 //
 // The path is also given, as `n` can be in different paths (see path extension).
 func RiptreeNextInPath(n *big.Int, p []bool) *big.Int {
+	if PTON(p).Cmp(n) != 0 {
+		panic("Wrong path.")
+	}
 	return n.Add(n, new(big.Int).Exp(TWO, big.NewInt(int64(len(p))), nil))
 }
 

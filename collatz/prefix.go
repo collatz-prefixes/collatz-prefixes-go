@@ -1,4 +1,4 @@
-package collatz_prefixes
+package collatz
 
 import "math/big"
 
@@ -11,7 +11,10 @@ func PrefixFind(n *big.Int, m *big.Int) []uint {
 	ans := make([]uint, 0)
 	twos := uint(0)
 	for {
-		if IsEven(n) && IsEven(m) {
+		if IsOne(n) || IsOne(m) {
+			// terminating condition
+			break
+		} else if IsEven(n) && IsEven(m) {
 			// both are even
 			twos++
 			n.Rsh(n, 1)
