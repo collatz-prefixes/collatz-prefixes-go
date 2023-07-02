@@ -3,9 +3,9 @@ package collatz
 import "math/big"
 
 // Collatz length is the number of iterations it takes to reach n to 1,
-func CollatzLength(n *big.Int) uint {
+func CollatzLength(n *big.Int) int {
 	n = Copy(n)
-	var ans uint = 0
+	ans := 0
 	for !IsOne(n) {
 		ans++
 		if IsEven(n) {
@@ -14,7 +14,7 @@ func CollatzLength(n *big.Int) uint {
 			n.Mul(n, THREE).Add(n, ONE)
 		}
 	}
-	return ans
+	return ans + 1
 }
 
 // Collatz Sequence is the array of numbers seen during iterations until 1 is reached.
@@ -29,6 +29,7 @@ func CollatzSeqeunce(n *big.Int) []*big.Int {
 			n.Mul(n, THREE).Add(n, ONE)
 		}
 	}
+	ans = append(ans, Copy(ONE))
 	return ans
 }
 

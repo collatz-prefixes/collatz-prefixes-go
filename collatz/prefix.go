@@ -10,6 +10,8 @@ import "math/big"
 func PrefixFind(n *big.Int, m *big.Int) []uint {
 	ans := make([]uint, 0)
 	twos := uint(0)
+	n = Copy(n)
+	m = Copy(m)
 	for {
 		if IsOne(n) || IsOne(m) {
 			// terminating condition
@@ -39,6 +41,7 @@ func PrefixIterate(n *big.Int, pf []uint) *big.Int {
 	if len(pf) == 0 {
 		return n
 	}
+	n = Copy(n)
 
 	// R_0 function
 	n.Div(n, new(big.Int).Rsh(ONE, pf[0]))
@@ -55,32 +58,42 @@ func PrefixIterate(n *big.Int, pf []uint) *big.Int {
 func PrefixMapToNum(pf []uint) *big.Int {
 	ans := big.NewInt(0)
 	for i := 0; i < len(pf); i++ {
-		ans.Add(ans, new(big.Int).Rsh(ONE, pf[i]))
+		ans.Add(ans, new(big.Int).Lsh(ONE, pf[i]))
 	}
 	return ans
 }
 
 // Bijective mapping from a list of ascending numbers to an integer
-func PrefixMapFromNum(n *big.Int) []uint {
+func PrefixMapFromNum(k *big.Int) []uint {
+	k = Copy(k)
 	ans := make([]uint, 0)
-	for bitPos := uint(0); n.Cmp(ZERO) == 1; bitPos++ {
-		if !IsEven(n) {
+	for bitPos := uint(0); k.Cmp(ZERO) == 1; bitPos++ {
+		if !IsEven(k) {
 			ans = append(ans, bitPos)
 		}
-		n.Rsh(n, 1)
+		k.Rsh(k, 1)
 	}
 	return ans
 }
 
 // Add two prefixes.
 func PrefixAdd(pf1 []uint, pf2 []uint) []uint {
+	// edge cases
 	if len(pf1) == 0 {
 		return pf2
 	}
-	pf1last := pf1[len(pf1)-1]
-	pf1[len(pf1)-1] += pf2[0]
-	for i := 1; i < len(pf2); i++ {
-		pf1 = append(pf1, pf2[i]+pf1last)
+	if len(pf2) == 0 {
+		return pf1
 	}
-	return pf1
+
+	ans := make([]uint, len(pf1))
+	copy(ans, pf1)
+
+	last := pf1[len(pf1)-1]
+	ans[len(pf1)-1] += pf2[0]
+	for i := 1; i < len(pf2); i++ {
+		ans = append(ans, pf2[i]+last)
+	}
+
+	return ans
 }

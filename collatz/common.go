@@ -28,10 +28,34 @@ func IsOne(n *big.Int) bool {
 	return n.Cmp(ONE) == 0
 }
 
-// Pop the last element from a slice.
-func Pop(arr *[]uint) uint {
-	len := len(*arr)
-	rv := (*arr)[len-1]
-	*arr = (*arr)[:len-1]
-	return rv
+func ToBigInts(arr []int64) []*big.Int {
+	ans := make([]*big.Int, len(arr))
+	for i, v := range arr {
+		ans[i] = big.NewInt(v)
+	}
+	return ans
+}
+
+func EqualUints(a, b []uint) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func EqualBigints(a, b []*big.Int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v.Cmp(b[i]) != 0 {
+			return false
+		}
+	}
+	return true
 }

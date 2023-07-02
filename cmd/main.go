@@ -23,19 +23,19 @@ func main() {
 		fmt.Println(collatz.CollatzECF(n))
 	} else if function == "seq" {
 		fmt.Println(collatz.CollatzSeqeunce(n))
-	} else if function == "ecf-n" {
-		fmt.Println(collatz.CollatzECFtoN([]uint{0, 1, 5}))
 	} else if function == "rseq" {
 		fmt.Println(collatz.CollatzReducedSeqeunce(n))
 	} else if function == "path" {
 		fmt.Println(collatz.NTOP(n))
-	} else if function == "prefix" {
+	} else if function == "pf" {
 		m, ok := new(big.Int).SetString(args[1], 10)
 		if !ok {
 			fmt.Println("SetString failed")
 			return
 		}
 		fmt.Println(collatz.PrefixFind(n, m))
+	} else if function == "pfmap" {
+		fmt.Println(collatz.PrefixMapFromNum(n))
 	} else {
 		fmt.Println("Unknown function.")
 	}
