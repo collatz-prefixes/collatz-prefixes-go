@@ -44,12 +44,12 @@ func PrefixIterate(n *big.Int, pf []uint) *big.Int {
 	n = Copy(n)
 
 	// R_0 function
-	n.Div(n, new(big.Int).Rsh(ONE, pf[0]))
+	n.Div(n, new(big.Int).Lsh(ONE, pf[0]))
 
 	// R function
 	for i := 1; i < len(pf); i++ {
 		n.Mul(n, THREE).Add(n, ONE)
-		n.Div(n, new(big.Int).Rsh(ONE, pf[i]-pf[i-1]))
+		n.Div(n, new(big.Int).Lsh(ONE, pf[i]-pf[i-1]))
 	}
 	return n
 }
