@@ -34,8 +34,12 @@ func main() {
 			return
 		}
 		fmt.Println(collatz.PrefixFind(n, m))
-	} else if function == "pfmap" {
+	} else if function == "mappf" {
 		fmt.Println(collatz.PrefixMapFromNum(n))
+	} else if function == "rippf" {
+		fmt.Println(collatz.RiptreePrefixFind(n, collatz.NTOP(n)))
+	} else if function == "pippf" {
+		fmt.Println(collatz.PiptreePrefixFind(n, collatz.NTOP(n)))
 	} else {
 		fmt.Println("Unknown function.")
 	}

@@ -36,6 +36,7 @@ func PiptreePrefixFind(n *big.Int, p []bool) []uint {
 		panic("Path does not match the number")
 	}
 
+	n = Copy(n)
 	if ISPOW2(n) {
 		ans := uint(0)
 		for ; n.Cmp(ONE) == 1; ans++ {
@@ -70,38 +71,27 @@ func PiptreePrefixFind(n *big.Int, p []bool) []uint {
 				cur_pf[i]--
 			}
 
-			if d {
-				// if BAD and RIGHT, append root prefix
-				if !nat {
-					cur_pf = append(cur_pf, rpf)
-				}
-
-				// div 2
-				cur_n.Rsh(cur_n, 1)
-
-				// go to the right child
-				i := 0
-				for ; i < len(cur_p)-1; i++ {
-					cur_p[i] = cur_p[i+1]
-				}
-				cur_p[i] = true
-			} else {
-				// if GOOD and LEFT, append root prefix
-				if nat {
-					cur_pf = append(cur_pf, rpf)
-				}
-
-				// div 2 and plus root
-				cur_n.Rsh(cur_n, 1)
-				cur_n.Add(cur_n, r)
-
-				// go to the left child
-				i := 0
-				for ; i < len(cur_p)-1; i++ {
-					cur_p[i] = cur_p[i+1]
-				}
-				cur_p[i] = false
+			// append root prefix if
+			// BAD and RIGHT, or
+			// GOOD and LEFT
+			if (d && !nat) || (!d && nat) {
+				cur_pf = append(cur_pf, rpf)
 			}
+
+			// div by 2
+			cur_n.Rsh(cur_n, 1)
+
+			// if GOOD, add root too
+			if !d {
+				cur_n.Add(cur_n, r)
+			}
+
+			// go to the next child
+			i := 0
+			for ; i < len(cur_p)-1; i++ {
+				cur_p[i] = cur_p[i+1]
+			}
+			cur_p[i] = d
 		}
 
 		return cur_pf

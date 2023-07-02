@@ -15,6 +15,7 @@ func IterativePathExtension(n *big.Int, prefixFinder func(p []bool) []uint) []ui
 func IterativePrefix(n *big.Int, prefixFinder func(n *big.Int) []uint) []uint {
 	var pf []uint
 
+	n = Copy(n)
 	ans := make([]uint, 0)
 	for {
 		pf = prefixFinder(n)

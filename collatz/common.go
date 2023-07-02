@@ -59,3 +59,15 @@ func EqualBigints(a, b []*big.Int) bool {
 	}
 	return true
 }
+
+func EqualBools(a, b []bool) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
+}

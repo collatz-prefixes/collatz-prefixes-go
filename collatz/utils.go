@@ -4,19 +4,26 @@ import "math/big"
 
 // Finds the path from a number.
 func NTOP(n *big.Int) []bool {
+	n = Copy(n)
+
 	n.Sub(n, ONE) // decrement
 	b := NTOB(n)  // to binary
 	REVERSE(b)    // reverse
 	FLIP(b)       // flip
+
 	return b
 }
 
 // Finds the number from a path.
 func PTON(p []bool) *big.Int {
-	FLIP(p)       // flip
-	REVERSE(p)    // reverse
-	n := BTON(p)  // to decimal
+	pp := make([]bool, len(p))
+	copy(pp, p)
+
+	FLIP(pp)      // flip
+	REVERSE(pp)   // reverse
+	n := BTON(pp) // to decimal
 	n.Add(n, ONE) // increment
+
 	return n
 }
 
@@ -34,28 +41,29 @@ func BTON(b []bool) *big.Int {
 
 // Convert a number to binary format.
 func NTOB(n *big.Int) []bool {
+	n = Copy(n)
 	b := make([]bool, 0)
 	for n.Cmp(ZERO) != 0 {
-		// prepend n & 1 to the beginning
 		b = append(b, n.Bit(0) == 1)
 		n.Rsh(n, 1)
 	}
-	REVERSE(b) // we want the LSB to be the first index
-	return b
+	return REVERSE(b)
 }
 
 // Flips the values in a boolean list.
-func FLIP(b []bool) {
-	for i := range b {
-		b[i] = !b[i]
+func FLIP(b []bool) []bool {
+	for i, b_i := range b {
+		b[i] = !b_i
 	}
+	return b
 }
 
 // Reverse the array of bits.
-func REVERSE(b []bool) {
+func REVERSE(b []bool) []bool {
 	for i, j := 0, len(b)-1; i < j; i, j = i+1, j-1 {
 		b[i], b[j] = b[j], b[i]
 	}
+	return b
 }
 
 // Returns true if the number is a power of two.
@@ -63,8 +71,8 @@ func ISPOW2(n *big.Int) bool {
 	if n.Cmp(ZERO) == 0 {
 		return true
 	} else {
-		n_1 := new(big.Int).Sub(n, ONE)
-		return ZERO.Cmp(new(big.Int).And(n, n_1)) == 0
+		// n & (n-1) == 0
+		return ZERO.Cmp(new(big.Int).And(n, new(big.Int).Sub(n, ONE))) == 0
 	}
 }
 
