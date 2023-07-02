@@ -1,11 +1,15 @@
-package collatz
+package piptree
 
 import (
+	"collatzprefixes/internal/common"
+	"collatzprefixes/internal/equals"
+	"collatzprefixes/pkg/prefix"
+	"collatzprefixes/pkg/utils"
 	"math/big"
 	"testing"
 )
 
-func TestRiptree(t *testing.T) {
+func TestPiptree(t *testing.T) {
 	cases := []struct {
 		n  *big.Int
 		pf []uint
@@ -24,13 +28,13 @@ func TestRiptree(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		pf := RiptreePrefixFind(test.n, NTOP(test.n))
+		pf := PrefixFind(test.n, utils.NTOP(test.n))
 
-		if !EqualUints(pf, test.pf) {
+		if !equals.Uints(pf, test.pf) {
 			t.Errorf("Wrong prefix.")
 		}
 
-		if IsEven(PrefixIterate(test.n, pf)) {
+		if common.IsEven(prefix.Iterate(test.n, pf)) {
 			t.Errorf("Result of prefix iteration should be odd.")
 		}
 

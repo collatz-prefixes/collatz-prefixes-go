@@ -1,4 +1,4 @@
-package collatz
+package common
 
 import (
 	"math/big"

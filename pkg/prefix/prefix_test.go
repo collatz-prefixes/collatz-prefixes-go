@@ -1,6 +1,8 @@
-package collatz
+package prefix
 
 import (
+	"collatzprefixes/internal/equals"
+	"collatzprefixes/pkg/collatz"
 	"math/big"
 	"testing"
 )
@@ -38,21 +40,21 @@ func TestPrefix(t *testing.T) {
 
 	for _, test := range cases {
 		// expected prefix found via ECFs
-		pf := prefixBrute(CollatzECF(test.n), CollatzECF(test.m))
+		pf := prefixBrute(collatz.ECF(test.n), collatz.ECF(test.m))
 
-		if !EqualUints(pf, PrefixFind(test.n, test.m)) {
+		if !equals.Uints(pf, Find(test.n, test.m)) {
 			t.Errorf("Prefix is wrong.")
 		}
 
-		if !EqualUints(pf, PrefixFind(test.m, test.n)) {
+		if !equals.Uints(pf, Find(test.m, test.n)) {
 			t.Errorf("PrefixFind should be commutative.")
 		}
 
 		// test both numbers for ECF iteration
-		if PrefixIterate(test.n, CollatzECF(test.n)).Cmp(big.NewInt(1)) != 0 {
+		if Iterate(test.n, collatz.ECF(test.n)).Cmp(big.NewInt(1)) != 0 {
 			t.Errorf("Iterating over ECF should result in 1.")
 		}
-		if PrefixIterate(test.m, CollatzECF(test.m)).Cmp(big.NewInt(1)) != 0 {
+		if Iterate(test.m, collatz.ECF(test.m)).Cmp(big.NewInt(1)) != 0 {
 			t.Errorf("Iterating over ECF should result in 1.")
 		}
 	}
@@ -76,7 +78,7 @@ func TestPrefixAdd(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !EqualUints(PrefixAdd(test.p1, test.p2), test.result) {
+		if !equals.Uints(Add(test.p1, test.p2), test.result) {
 			t.Errorf("Wrong result.")
 		}
 	}
@@ -101,11 +103,11 @@ func TestPrefixMap(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if PrefixMapToNum(test.pf).Cmp(test.k) != 0 {
+		if ToNum(test.pf).Cmp(test.k) != 0 {
 			t.Errorf("Wrong number from prefix.")
 		}
 
-		if !EqualUints(PrefixMapFromNum(test.k), test.pf) {
+		if !equals.Uints(FromNum(test.k), test.pf) {
 			t.Errorf("Wrong prefix from number.")
 		}
 	}

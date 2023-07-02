@@ -1,15 +1,18 @@
-package collatz
+package utils
 
-import "math/big"
+import (
+	common "collatzprefixes/internal/common"
+	"math/big"
+)
 
 // Finds the path from a number.
 func NTOP(n *big.Int) []bool {
-	n = Copy(n)
+	n = common.Copy(n)
 
-	n.Sub(n, ONE) // decrement
-	b := NTOB(n)  // to binary
-	REVERSE(b)    // reverse
-	FLIP(b)       // flip
+	n.Sub(n, common.ONE) // decrement
+	b := NTOB(n)         // to binary
+	REVERSE(b)           // reverse
+	FLIP(b)              // flip
 
 	return b
 }
@@ -19,10 +22,10 @@ func PTON(p []bool) *big.Int {
 	pp := make([]bool, len(p))
 	copy(pp, p)
 
-	FLIP(pp)      // flip
-	REVERSE(pp)   // reverse
-	n := BTON(pp) // to decimal
-	n.Add(n, ONE) // increment
+	FLIP(pp)             // flip
+	REVERSE(pp)          // reverse
+	n := BTON(pp)        // to decimal
+	n.Add(n, common.ONE) // increment
 
 	return n
 }
@@ -33,7 +36,7 @@ func BTON(b []bool) *big.Int {
 	for _, b_i := range b {
 		n.Lsh(n, 1)
 		if b_i {
-			n.Add(n, ONE)
+			n.Add(n, common.ONE)
 		}
 	}
 	return n
@@ -41,9 +44,9 @@ func BTON(b []bool) *big.Int {
 
 // Convert a number to binary format.
 func NTOB(n *big.Int) []bool {
-	n = Copy(n)
+	n = common.Copy(n)
 	b := make([]bool, 0)
-	for n.Cmp(ZERO) != 0 {
+	for n.Cmp(common.ZERO) != 0 {
 		b = append(b, n.Bit(0) == 1)
 		n.Rsh(n, 1)
 	}
@@ -68,11 +71,11 @@ func REVERSE(b []bool) []bool {
 
 // Returns true if the number is a power of two.
 func ISPOW2(n *big.Int) bool {
-	if n.Cmp(ZERO) == 0 {
+	if n.Cmp(common.ZERO) == 0 {
 		return true
 	} else {
 		// n & (n-1) == 0
-		return ZERO.Cmp(new(big.Int).And(n, new(big.Int).Sub(n, ONE))) == 0
+		return common.ZERO.Cmp(new(big.Int).And(n, new(big.Int).Sub(n, common.ONE))) == 0
 	}
 }
 

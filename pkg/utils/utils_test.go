@@ -1,6 +1,7 @@
-package collatz
+package utils
 
 import (
+	"collatzprefixes/internal/equals"
 	"math/big"
 	"testing"
 )
@@ -27,7 +28,7 @@ func TestPath(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !EqualBools(NTOP(test.n), test.p) {
+		if !equals.Bools(NTOP(test.n), test.p) {
 			t.Errorf("Wrong path from number.")
 		}
 		if PTON(test.p).Cmp(test.n) != 0 {
@@ -48,7 +49,7 @@ func TestBinary(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !EqualBools(NTOB(test.n), test.b) {
+		if !equals.Bools(NTOB(test.n), test.b) {
 			t.Errorf("Wrong binary from number.")
 		}
 		if BTON(test.b).Cmp(test.n) != 0 {
@@ -79,10 +80,10 @@ func TestPow2(t *testing.T) {
 }
 
 func TestBools(t *testing.T) {
-	if !EqualBools(FLIP([]bool{false, false}), []bool{true, true}) {
+	if !equals.Bools(FLIP([]bool{false, false}), []bool{true, true}) {
 		t.Errorf("FLIP failed.")
 	}
-	if !EqualBools(REVERSE([]bool{false, true}), []bool{true, false}) {
+	if !equals.Bools(REVERSE([]bool{false, true}), []bool{true, false}) {
 		t.Errorf("REVERSE failed.")
 	}
 }

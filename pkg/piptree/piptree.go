@@ -1,57 +1,62 @@
-package collatz
+package piptree
 
-import "math/big"
+import (
+	"collatzprefixes/internal/common"
+	"collatzprefixes/pkg/prefix"
+	"collatzprefixes/pkg/utils"
+	"math/big"
+)
 
 // Finds the nature of a path.
-func PiptreeFindNature(p []bool, pf []uint, rpf uint) bool {
-	n := PTON(p)
-	iter_res := PrefixIterate(n, append(pf, rpf+1))
-	return IsEven(iter_res)
+func FindNature(p []bool, pf []uint, rpf uint) bool {
+	n := utils.PTON(p)
+	iter_res := prefix.Iterate(n, append(pf, rpf+1))
+	return common.IsEven(iter_res)
 }
 
 // Finds the path from root to the node indexed by p in PIPTree, with the path length of the root node being equal to |p|.
 //
 // It starts from the target, and in a loop either does `m/2` or `(m-1)/2` until it reaches 1.
 // This gives the path from that number to root, so we reverse that to obtain the road from path to target.
-func PiptreeGetRootDirections(p []bool) []bool {
+func GetRootDirections(p []bool) []bool {
 	ans := make([]bool, 0)
-	for i := BTON(p); i.Cmp(ONE) == 1; {
-		if IsEven(i) {
+	for i := utils.BTON(p); i.Cmp(common.ONE) == 1; {
+		if common.IsEven(i) {
 			i.Rsh(i, 1)
 			ans = append(ans, false) // left
 		} else {
-			i.Rsh(i.Sub(i, ONE), 1)
+			i.Rsh(i.Sub(i, common.ONE), 1)
 			ans = append(ans, true) // right
 		}
 	}
-	REVERSE(ans)
+	utils.REVERSE(ans)
 	return ans
 
 }
 
 // Finds the prefix of a number using PIPTree properties.
-func PiptreePrefixFind(n *big.Int, p []bool) []uint {
+func PrefixFind(n *big.Int, p []bool) []uint {
 	// TODO: does this always work for even larger paths?
-	if PTON(p).Cmp(n) != 0 {
+	if utils.PTON(p).Cmp(n) != 0 {
 		panic("Path does not match the number")
 	}
 
-	n = Copy(n)
-	if ISPOW2(n) {
+	n = common.Copy(n)
+	if utils.ISPOW2(n) {
 		ans := uint(0)
-		for ; n.Cmp(ONE) == 1; ans++ {
+		for ; n.Cmp(common.ONE) == 1; ans++ {
 			n.Rsh(n, 1)
 		}
 		return []uint{ans}
 	} else {
 		// directions from root to p
-		dir := PiptreeGetRootDirections(p)
+		dir := GetRootDirections(p)
 
 		// root prefix
 		rpf := uint(len(p) - 1)
 
 		// root number
-		r := new(big.Int).Rsh(ONE, rpf)
+		r := new(big.Int).Rsh(common.ONE, rpf)
 
 		// root path
 		rp := make([]bool, len(p)) // values false by default
@@ -64,7 +69,7 @@ func PiptreePrefixFind(n *big.Int, p []bool) []uint {
 
 		for _, d := range dir {
 			// nature of the current node
-			nat := PiptreeFindNature(cur_p, cur_pf, rpf)
+			nat := FindNature(cur_p, cur_pf, rpf)
 
 			// decrement everything in the prefix
 			for i := range cur_pf {

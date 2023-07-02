@@ -1,7 +1,12 @@
 package main
 
 import (
-	collatz "collatzprefix/collatz"
+	"collatzprefixes/pkg/collatz"
+	"collatzprefixes/pkg/iterative"
+	"collatzprefixes/pkg/piptree"
+	"collatzprefixes/pkg/prefix"
+	"collatzprefixes/pkg/riptree"
+	"collatzprefixes/pkg/utils"
 	"fmt"
 	"math/big"
 	"os"
@@ -20,28 +25,28 @@ func main() {
 
 	// process command
 	if function == "ecf" {
-		fmt.Println(collatz.CollatzECF(n))
+		fmt.Println(collatz.ECF(n))
 	} else if function == "seq" {
-		fmt.Println(collatz.CollatzSeqeunce(n))
+		fmt.Println(collatz.Seqeunce(n))
 	} else if function == "rseq" {
-		fmt.Println(collatz.CollatzReducedSeqeunce(n))
+		fmt.Println(collatz.ReducedSeqeunce(n))
 	} else if function == "path" {
-		fmt.Println(collatz.NTOP(n))
+		fmt.Println(utils.NTOP(n))
 	} else if function == "pf" {
 		m, ok := new(big.Int).SetString(args[1], 10)
 		if !ok {
 			fmt.Println("SetString failed")
 			return
 		}
-		fmt.Println(collatz.PrefixFind(n, m))
+		fmt.Println(prefix.Find(n, m))
 	} else if function == "mappf" {
-		fmt.Println(collatz.PrefixMapFromNum(n))
+		fmt.Println(prefix.FromNum(n))
 	} else if function == "rippf" {
-		fmt.Println(collatz.RiptreePrefixFind(n, collatz.NTOP(n)))
+		fmt.Println(riptree.PrefixFind(n, utils.NTOP(n)))
 	} else if function == "pippf" {
-		fmt.Println(collatz.PiptreePrefixFind(n, collatz.NTOP(n)))
+		fmt.Println(piptree.PrefixFind(n, utils.NTOP(n)))
 	} else if function == "iter" {
-		fmt.Println(collatz.IterativePathExtension(n, collatz.PiptreePrefixFind))
+		fmt.Println(iterative.Prefix(n, piptree.PrefixFind))
 	} else {
 		fmt.Println("Unknown function.")
 	}

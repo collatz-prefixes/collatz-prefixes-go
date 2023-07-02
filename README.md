@@ -9,6 +9,8 @@
 
 All functions operate on `*big.Int` pointers, but functions that may change the underlying value do NOT change them, a simple copy is made within the function. This is to make the interface compatible with other bigint functions, while also keeping things behave like pass-by-value. For example, this prevents your value to go to 1 when you compute the sequence.
 
+More docs soon.
+
 ## Testing
 
 Run all tests with:
