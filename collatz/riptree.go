@@ -6,11 +6,7 @@ import "math/big"
 //
 // The path is also given, as `n` can be in different paths (see path extension).
 func RiptreeNextInPath(n *big.Int, p []bool) *big.Int {
-	n = Copy(n)
-	if PTON(p).Cmp(n) != 0 {
-		panic("Wrong path.")
-	}
-	return n.Add(n, new(big.Int).Lsh(ONE, uint(len(p))))
+	return new(big.Int).Add(n, new(big.Int).Lsh(ONE, uint(len(p))))
 }
 
 // Finds the prefix of a number, or a number at the given path.

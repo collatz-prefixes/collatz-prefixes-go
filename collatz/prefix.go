@@ -8,15 +8,16 @@ import "math/big"
 // As an example, ECF(3) = [0, 1, 5] and ECF(7) = [0, 1, 2, 4, 7, 11].
 // The common prefix here is [0, 1], thus prefix(3,7) = prefix(7,3) = [0, 1].
 func PrefixFind(n *big.Int, m *big.Int) []uint {
+	if n.Cmp(m) == 0 {
+		return CollatzECF(n)
+	}
+
 	ans := make([]uint, 0)
 	twos := uint(0)
 	n = Copy(n)
 	m = Copy(m)
 	for {
-		if IsOne(n) || IsOne(m) {
-			// terminating condition
-			break
-		} else if IsEven(n) && IsEven(m) {
+		if IsEven(n) && IsEven(m) {
 			// both are even
 			twos++
 			n.Rsh(n, 1)

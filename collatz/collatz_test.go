@@ -23,12 +23,14 @@ func TestCollatzECF(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !EqualUints(CollatzECF(test.n), test.ecf) {
-			t.Errorf("Wrong ECF from number.")
+		ecf := CollatzECF(test.n)
+		if !EqualUints(ecf, test.ecf) {
+			t.Errorf("Wrong ECF from number.\t%x != %x", test.ecf, ecf)
 		}
 
-		if CollatzECFtoN(test.ecf).Cmp(test.n) != 0 {
-			t.Errorf("Wrong number from ECF.")
+		n := CollatzECFtoN(test.ecf)
+		if n.Cmp(test.n) != 0 {
+			t.Errorf("Wrong number from ECF.\t%d != %d", test.n, n)
 		}
 	}
 
@@ -53,16 +55,20 @@ func TestCollatzSequences(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !EqualBigints(CollatzSeqeunce(test.n), test.seq) {
-			t.Errorf("Wrong sequence.")
+		seq := CollatzSeqeunce(test.n)
+		if !EqualBigints(seq, test.seq) {
+			t.Errorf("Wrong sequence.\t%x != %x", test.seq, seq)
 		}
 
-		if !EqualBigints(CollatzReducedSeqeunce(test.n), test.rseq) {
-			t.Errorf("Wrong reduced sequence.")
+		rseq := CollatzReducedSeqeunce(test.n)
+		if !EqualBigints(rseq, test.rseq) {
+			t.Errorf("Wrong reduced sequence.\t%x != %x", test.rseq, rseq)
 		}
 
-		if CollatzLength(test.n) != len(test.seq) {
-			t.Errorf("Wrong length.")
+		test_l := len(test.seq)
+		l := CollatzLength(test.n)
+		if l != test_l {
+			t.Errorf("Wrong length.\t%d != %d", test_l, l)
 		}
 	}
 

@@ -40,6 +40,8 @@ func main() {
 		fmt.Println(collatz.RiptreePrefixFind(n, collatz.NTOP(n)))
 	} else if function == "pippf" {
 		fmt.Println(collatz.PiptreePrefixFind(n, collatz.NTOP(n)))
+	} else if function == "iter" {
+		fmt.Println(collatz.IterativePathExtension(n, collatz.PiptreePrefixFind))
 	} else {
 		fmt.Println("Unknown function.")
 	}

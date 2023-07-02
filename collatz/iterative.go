@@ -1,24 +1,26 @@
 package collatz
 
-import "math/big"
+import (
+	"math/big"
+)
 
-func IterativePathExtension(n *big.Int, prefixFinder func(p []bool) []uint) []uint {
+// Find the ECF by iteratively extending the path until prefix iteration results in 1.
+func IterativePathExtension(n *big.Int, prefixFinder func(n *big.Int, p []bool) []uint) []uint {
 	p := NTOP(n)
-	pf := prefixFinder(p)
-	for PrefixIterate(n, pf).Cmp(ONE) != 0 {
+	for PrefixIterate(n, prefixFinder(n, p)).Cmp(ONE) != 0 {
 		p = append(p, true)
-		pf = prefixFinder(p)
 	}
-	return pf
+	return prefixFinder(n, p)
 }
 
-func IterativePrefix(n *big.Int, prefixFinder func(n *big.Int) []uint) []uint {
+// Find the ECF by iteratively consuming the prefix until the iteration result is 1.
+func IterativePrefix(n *big.Int, prefixFinder func(n *big.Int, p []bool) []uint) []uint {
 	var pf []uint
 
 	n = Copy(n)
 	ans := make([]uint, 0)
 	for {
-		pf = prefixFinder(n)
+		pf = prefixFinder(n, NTOP(n))
 		ans = PrefixAdd(ans, pf)
 		n = PrefixIterate(n, pf)
 		if n.Cmp(ONE) == 0 {
