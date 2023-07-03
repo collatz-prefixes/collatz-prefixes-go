@@ -16,5 +16,5 @@ More docs soon.
 Run all tests with:
 
 ```sh
-go test -v ./...
+go test -v ./pkg/... ./internal/...
 ```

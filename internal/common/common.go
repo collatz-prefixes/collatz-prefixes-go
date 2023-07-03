@@ -28,46 +28,11 @@ func IsOne(n *big.Int) bool {
 	return n.Cmp(ONE) == 0
 }
 
+// Maps an array of `int64`as to an array of bigints.
 func ToBigInts(arr []int64) []*big.Int {
 	ans := make([]*big.Int, len(arr))
 	for i, v := range arr {
 		ans[i] = big.NewInt(v)
 	}
 	return ans
-}
-
-func EqualUints(a, b []uint) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i, v := range a {
-		if v != b[i] {
-			return false
-		}
-	}
-	return true
-}
-
-func EqualBigints(a, b []*big.Int) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i, v := range a {
-		if v.Cmp(b[i]) != 0 {
-			return false
-		}
-	}
-	return true
-}
-
-func EqualBools(a, b []bool) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i, v := range a {
-		if v != b[i] {
-			return false
-		}
-	}
-	return true
 }

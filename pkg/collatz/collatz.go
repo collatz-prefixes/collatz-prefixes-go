@@ -5,7 +5,7 @@ import (
 	"math/big"
 )
 
-// Collatz length is the number of iterations it takes to reach n to 1,
+// Collatz length is the number of iterations it takes to reach n to 1.
 func Length(n *big.Int) int {
 	n = common.Copy(n)
 	ans := 0
@@ -32,7 +32,7 @@ func Seqeunce(n *big.Int) []*big.Int {
 			n.Mul(n, common.THREE).Add(n, common.ONE)
 		}
 	}
-	ans = append(ans, common.Copy(common.ONE))
+	ans = append(ans, common.Copy(n))
 	return ans
 }
 
@@ -53,7 +53,7 @@ func ReducedSeqeunce(n *big.Int) []*big.Int {
 		}
 	}
 
-	ans = append(ans, common.Copy(common.ONE))
+	ans = append(ans, common.Copy(n))
 	return ans
 }
 
