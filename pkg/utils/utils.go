@@ -1,7 +1,7 @@
 package utils
 
 import (
-	common "collatzprefixes/internal/common"
+	"collatzprefixes/internal/common"
 	"math/big"
 )
 
@@ -36,13 +36,16 @@ func BTON(b []bool) *big.Int {
 	for _, b_i := range b {
 		n.Lsh(n, 1)
 		if b_i {
-			n.Add(n, common.ONE)
+			n.SetBit(n, 0, 1)
 		}
+
 	}
 	return n
 }
 
 // Convert a number to binary format.
+//
+// TODO: use n.bits()
 func NTOB(n *big.Int) []bool {
 	n = common.Copy(n)
 	b := make([]bool, 0)
@@ -77,18 +80,4 @@ func ISPOW2(n *big.Int) bool {
 		// n & (n-1) == 0
 		return common.ZERO.Cmp(new(big.Int).And(n, new(big.Int).Sub(n, common.ONE))) == 0
 	}
-}
-
-// Returns the next power of two for the given number.
-func NEXTPOW2(n *big.Int) *big.Int {
-	if ISPOW2(n) {
-		return n
-	}
-
-	p := big.NewInt(1)
-	for p.Cmp(n) == -1 {
-		p.Lsh(p, 1)
-	}
-
-	return p
 }

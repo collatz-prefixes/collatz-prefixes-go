@@ -25,6 +25,7 @@ func TestPiptree(t *testing.T) {
 		{big.NewInt(7), []uint{0, 1, 2}},
 		{big.NewInt(27), []uint{0, 1, 3, 4}},
 		{big.NewInt(321), []uint{0, 2, 4}},
+		{big.NewInt(322), []uint{1, 3, 5, 6, 8}},
 	}
 
 	for _, test := range cases {

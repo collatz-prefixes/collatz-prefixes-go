@@ -12,6 +12,8 @@ import (
 	"os"
 )
 
+// TODO: use flag library to get arguments
+
 func main() {
 	args := os.Args[1:]
 
@@ -45,7 +47,9 @@ func main() {
 		fmt.Println(riptree.PrefixFind(n, utils.NTOP(n)))
 	} else if function == "pippf" {
 		fmt.Println(piptree.PrefixFind(n, utils.NTOP(n)))
-	} else if function == "iter" {
+	} else if function == "ripiter" {
+		fmt.Println(iterative.Prefix(n, riptree.PrefixFind))
+	} else if function == "pipiter" {
 		fmt.Println(iterative.Prefix(n, piptree.PrefixFind))
 	} else {
 		fmt.Println("Unknown function.")

@@ -4,6 +4,7 @@ import (
 	"collatzprefixes/internal/common"
 	"collatzprefixes/pkg/prefix"
 	"collatzprefixes/pkg/utils"
+	"fmt"
 	"math/big"
 )
 
@@ -18,12 +19,11 @@ func PathExtension(n *big.Int, prefixFinder func(n *big.Int, p []bool) []uint) [
 
 // Find the ECF by iteratively consuming the prefix until the iteration result is 1.
 func Prefix(n *big.Int, prefixFinder func(n *big.Int, p []bool) []uint) []uint {
-	var pf []uint
-
 	n = common.Copy(n)
 	ans := make([]uint, 0)
 	for {
-		pf = prefixFinder(n, utils.NTOP(n))
+		pf := prefixFinder(n, utils.NTOP(n))
+		fmt.Println(pf, n)
 		ans = prefix.Add(ans, pf)
 		n = prefix.Iterate(n, pf)
 		if n.Cmp(common.ONE) == 0 {

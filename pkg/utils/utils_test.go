@@ -60,21 +60,21 @@ func TestBinary(t *testing.T) {
 
 func TestPow2(t *testing.T) {
 	cases := []struct {
-		n *big.Int
-		k *big.Int
+		yes *big.Int
+		no  *big.Int
 	}{
-		{big.NewInt(1), big.NewInt(1)},
-		{big.NewInt(2), big.NewInt(2)},
-		{big.NewInt(3), big.NewInt(4)},
-		{big.NewInt(15), big.NewInt(16)},
+		{big.NewInt(1), big.NewInt(3)},
+		{big.NewInt(2), big.NewInt(5)},
+		{big.NewInt(4), big.NewInt(7)},
+		{big.NewInt(16), big.NewInt(19)},
 	}
 
 	for _, test := range cases {
-		if !ISPOW2(test.k) {
+		if !ISPOW2(test.yes) {
 			t.Errorf("ISPOW2 failed.")
 		}
-		if NEXTPOW2(test.n).Cmp(test.k) != 0 {
-			t.Errorf("NEXTPOW2 failed.")
+		if ISPOW2(test.no) {
+			t.Errorf("ISPOW2 failed.")
 		}
 	}
 }

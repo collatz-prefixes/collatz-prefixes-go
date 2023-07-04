@@ -40,7 +40,9 @@ func TestPrefix(t *testing.T) {
 
 	for _, test := range cases {
 		// expected prefix found via ECFs
-		pf := prefixBrute(collatz.ECF(test.n), collatz.ECF(test.m))
+		ecf_n := collatz.ECF(test.n)
+		ecf_m := collatz.ECF(test.m)
+		pf := prefixBrute(ecf_n, ecf_m)
 
 		if !equals.Uints(pf, Find(test.n, test.m)) {
 			t.Errorf("Prefix is wrong.")
@@ -51,10 +53,10 @@ func TestPrefix(t *testing.T) {
 		}
 
 		// test both numbers for ECF iteration
-		if Iterate(test.n, collatz.ECF(test.n)).Cmp(big.NewInt(1)) != 0 {
+		if Iterate(test.n, ecf_n).Cmp(big.NewInt(1)) != 0 {
 			t.Errorf("Iterating over ECF should result in 1.")
 		}
-		if Iterate(test.m, collatz.ECF(test.m)).Cmp(big.NewInt(1)) != 0 {
+		if Iterate(test.m, ecf_m).Cmp(big.NewInt(1)) != 0 {
 			t.Errorf("Iterating over ECF should result in 1.")
 		}
 	}
@@ -62,8 +64,8 @@ func TestPrefix(t *testing.T) {
 
 func TestPrefixAdd(t *testing.T) {
 	cases := []struct {
-		p1     []uint
-		p2     []uint
+		pf1    []uint
+		pf2    []uint
 		result []uint
 	}{
 		// edge
@@ -78,7 +80,7 @@ func TestPrefixAdd(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !equals.Uints(Add(test.p1, test.p2), test.result) {
+		if !equals.Uints(Add(test.pf1, test.pf2), test.result) {
 			t.Errorf("Wrong result.")
 		}
 	}

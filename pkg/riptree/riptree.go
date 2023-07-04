@@ -25,8 +25,8 @@ func PrefixFind(n *big.Int, p []bool) []uint {
 
 	n = common.Copy(n)
 	if utils.ISPOW2(n) {
-		ans := uint(0)
-		for ; n.Cmp(common.ONE) == 1; ans++ {
+		var ans uint
+		for ans = 0; n.Cmp(common.ONE) == 1; ans++ {
 			n.Rsh(n, 1)
 		}
 		return []uint{ans}

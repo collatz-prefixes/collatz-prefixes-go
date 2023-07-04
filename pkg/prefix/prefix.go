@@ -2,7 +2,6 @@ package prefix
 
 import (
 	"collatzprefixes/internal/common"
-	"collatzprefixes/pkg/collatz"
 	"math/big"
 )
 
@@ -10,12 +9,8 @@ import (
 //
 // The prefix can be thought of as common prefix of the ECFs.
 // As an example, ECF(3) = [0, 1, 5] and ECF(7) = [0, 1, 2, 4, 7, 11].
-// The common prefix here is [0, 1], thus prefix(3,7) = prefix(7,3) = [0, 1].
+// The common prefix here is [0, 1], thus find(3,7) = find(7,3) = [0, 1].
 func Find(n *big.Int, m *big.Int) []uint {
-	if n.Cmp(m) == 0 {
-		return collatz.ECF(n)
-	}
-
 	ans := make([]uint, 0)
 	twos := uint(0)
 	n = common.Copy(n)
@@ -59,7 +54,7 @@ func Iterate(n *big.Int, pf []uint) *big.Int {
 	return n
 }
 
-// Bijective mapping from a list of ascending numbers to an integer
+// Bijective mapping from a list of ascending numbers to an integer.
 func ToNum(pf []uint) *big.Int {
 	ans := big.NewInt(0)
 	for i := 0; i < len(pf); i++ {
@@ -68,7 +63,7 @@ func ToNum(pf []uint) *big.Int {
 	return ans
 }
 
-// Bijective mapping from a list of ascending numbers to an integer
+// Bijective mapping from a number to a list of ascending numbers.
 func FromNum(k *big.Int) []uint {
 	k = common.Copy(k)
 	ans := make([]uint, 0)
@@ -82,6 +77,13 @@ func FromNum(k *big.Int) []uint {
 }
 
 // Add two prefixes.
+//
+// This is done by "attaching" prefixes together.
+//
+//		pf1: [a, b, c]
+//		pf2:       [x,   y,   z]
+//	 +---------------------------
+//		sum: [a, b, x+c, y+c, z+c]
 func Add(pf1 []uint, pf2 []uint) []uint {
 	// edge cases
 	if len(pf1) == 0 {

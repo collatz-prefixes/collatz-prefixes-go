@@ -22,12 +22,12 @@ func GetRootDirections(p []bool) []bool {
 	ans := make([]bool, 0)
 	for i := utils.BTON(p); i.Cmp(common.ONE) == 1; {
 		if common.IsEven(i) {
-			i.Rsh(i, 1)
 			ans = append(ans, false) // left
 		} else {
-			i.Rsh(i.Sub(i, common.ONE), 1)
+			i.Sub(i, common.ONE)
 			ans = append(ans, true) // right
 		}
+		i.Rsh(i, 1)
 	}
 	utils.REVERSE(ans)
 	return ans
@@ -56,7 +56,7 @@ func PrefixFind(n *big.Int, p []bool) []uint {
 		rpf := uint(len(p) - 1)
 
 		// root number
-		r := new(big.Int).Rsh(common.ONE, rpf)
+		r := new(big.Int).Lsh(common.ONE, rpf)
 
 		// root path
 		rp := make([]bool, len(p)) // values false by default
@@ -68,6 +68,7 @@ func PrefixFind(n *big.Int, p []bool) []uint {
 		cur_pf := []uint{rpf}
 
 		for _, d := range dir {
+
 			// nature of the current node
 			nat := FindNature(cur_p, cur_pf, rpf)
 
