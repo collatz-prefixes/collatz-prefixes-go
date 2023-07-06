@@ -17,7 +17,7 @@ func Length(n *big.Int) int {
 			n.Mul(n, common.THREE).Add(n, common.ONE)
 		}
 	}
-	return ans + 1
+	return ans
 }
 
 // Collatz Sequence is the array of numbers seen during iterations until 1 is reached.

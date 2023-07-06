@@ -6,11 +6,11 @@ import (
 )
 
 // Finds the path from a number.
-func NTOP(n *big.Int) []bool {
+func ToPath(n *big.Int) []bool {
 	n = common.Copy(n)
 
 	n.Sub(n, common.ONE) // decrement
-	b := NTOB(n)         // to binary
+	b := ToBinary(n)     // to binary
 	REVERSE(b)           // reverse
 	FLIP(b)              // flip
 
@@ -18,20 +18,33 @@ func NTOP(n *big.Int) []bool {
 }
 
 // Finds the number from a path.
-func PTON(p []bool) *big.Int {
+func FromPath(p []bool) *big.Int {
 	pp := make([]bool, len(p))
 	copy(pp, p)
 
 	FLIP(pp)             // flip
 	REVERSE(pp)          // reverse
-	n := BTON(pp)        // to decimal
+	n := FromBinary(pp)  // to decimal
 	n.Add(n, common.ONE) // increment
 
 	return n
 }
 
+// Convert a number to binary format.
+//
+// TODO: use n.bits()
+func ToBinary(n *big.Int) []bool {
+	n = common.Copy(n)
+	b := make([]bool, 0)
+	for n.Cmp(common.ZERO) != 0 {
+		b = append(b, n.Bit(0) == 1)
+		n.Rsh(n, 1)
+	}
+	return REVERSE(b)
+}
+
 // Given a list of bools as binary representation, returns the corresponding number.
-func BTON(b []bool) *big.Int {
+func FromBinary(b []bool) *big.Int {
 	n := big.NewInt(0)
 	for _, b_i := range b {
 		n.Lsh(n, 1)
@@ -41,19 +54,6 @@ func BTON(b []bool) *big.Int {
 
 	}
 	return n
-}
-
-// Convert a number to binary format.
-//
-// TODO: use n.bits()
-func NTOB(n *big.Int) []bool {
-	n = common.Copy(n)
-	b := make([]bool, 0)
-	for n.Cmp(common.ZERO) != 0 {
-		b = append(b, n.Bit(0) == 1)
-		n.Rsh(n, 1)
-	}
-	return REVERSE(b)
 }
 
 // Flips the values in a boolean list.

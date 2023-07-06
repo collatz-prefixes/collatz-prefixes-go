@@ -9,7 +9,7 @@ import (
 
 // Finds the nature of a path.
 func FindNature(p []bool, pf []uint, rpf uint) bool {
-	n := utils.PTON(p)
+	n := utils.FromPath(p)
 	iter_res := prefix.Iterate(n, append(pf, rpf+1))
 	return common.IsEven(iter_res)
 }
@@ -20,7 +20,7 @@ func FindNature(p []bool, pf []uint, rpf uint) bool {
 // This gives the path from that number to root, so we reverse that to obtain the road from path to target.
 func GetRootDirections(p []bool) []bool {
 	ans := make([]bool, 0)
-	for i := utils.BTON(p); i.Cmp(common.ONE) == 1; {
+	for i := utils.FromBinary(p); i.Cmp(common.ONE) == 1; {
 		if common.IsEven(i) {
 			ans = append(ans, false) // left
 		} else {
@@ -29,7 +29,12 @@ func GetRootDirections(p []bool) []bool {
 		}
 		i.Rsh(i, 1)
 	}
-	utils.REVERSE(ans)
+
+	// reverse
+	for i, j := 0, len(ans)-1; i < j; i, j = i+1, j-1 {
+		ans[i], ans[j] = ans[j], ans[i]
+	}
+
 	return ans
 
 }
@@ -37,7 +42,7 @@ func GetRootDirections(p []bool) []bool {
 // Finds the prefix of a number using PIPTree properties.
 func PrefixFind(n *big.Int, p []bool) []uint {
 	// TODO: does this always work for even larger paths?
-	if utils.PTON(p).Cmp(n) != 0 {
+	if utils.FromPath(p).Cmp(n) != 0 {
 		panic("Path does not match the number")
 	}
 

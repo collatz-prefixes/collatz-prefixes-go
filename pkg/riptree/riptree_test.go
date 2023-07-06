@@ -29,7 +29,7 @@ func TestRiptree(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		pf := PrefixFind(test.n, utils.NTOP(test.n))
+		pf := PrefixFind(test.n, utils.ToPath(test.n))
 
 		if !equals.Uints(pf, test.pf) {
 			t.Errorf("Wrong prefix.")
@@ -55,7 +55,7 @@ func TestNextInPath(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if NextInPath(test.n, utils.NTOP(test.n)).Cmp(test.k) != 0 {
+		if NextInPath(test.n, utils.ToPath(test.n)).Cmp(test.k) != 0 {
 			t.Errorf("Wrong number for next in path.")
 		}
 	}

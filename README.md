@@ -7,14 +7,65 @@
 
 ## Usage
 
-All functions operate on `*big.Int` pointers, but functions that may change the underlying value do NOT change them, a simple copy is made within the function. This is to make the interface compatible with other bigint functions, while also keeping things behave like pass-by-value. For example, this prevents your value to go to 1 when you compute the sequence.
+You can build the binary under `bin` via:
 
-More docs soon.
+```sh
+go build -o ./bin/collatz -ldflags "-s -w" ./cmd/main.go
+```
+
+or run it directly with:
+
+```sh
+go run ./cmd/main.go <function> <name>
+```
+
+The executable is A CLI that takes two arguments:
+
+```sh
+# Print the stopping time of a number
+len <num>
+
+# Print the sequence of a number
+seq <num>
+
+# Print the reduced sequence of a number
+rdseq <num>
+
+# Print Exponential Canonical Form of a number
+ecf <num>
+
+# Print the path of a number
+path <num>
+
+# Prints the mapping of this number to a prefix
+map <num>
+
+# Prints the mapping of the prefix of a number
+pf-map <num>
+
+# Print the prefix w.r.t RIPTree
+pf-rip <num>
+
+# Print the prefix w.r.t PIPTree
+pf-pip <num>
+
+# Find ECF iteratively via RIPTree + Prefix
+ecf-pf-rip <num>
+
+# Find ECF iteratively via PIPTree + Prefix
+ecf-pf-pip <num>
+
+# Find ECF iteratively via RIPTree + Path extensions
+ecf-path-rip <num>
+
+# Find ECF iteratively via PIPTree + Path extensions
+ecf-path-pip <num>
+```
 
 ## Testing
 
-Run all tests with:
+Run all tests with coverage:
 
 ```sh
-go test -v ./pkg/... ./internal/...
+go test ./... -cover
 ```

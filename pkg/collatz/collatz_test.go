@@ -67,7 +67,7 @@ func TestCollatzSequences(t *testing.T) {
 			t.Errorf("Wrong reduced sequence.\t%x != %x", test.rseq, rseq)
 		}
 
-		test_l := len(test.seq)
+		test_l := len(test.seq) - 1 // last is ignored
 		l := Length(test.n)
 		if l != test_l {
 			t.Errorf("Wrong length.\t%d != %d", test_l, l)

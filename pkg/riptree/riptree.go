@@ -16,10 +16,10 @@ func NextInPath(n *big.Int, p []bool) *big.Int {
 
 // Finds the prefix of a number, or a number at the given path.
 //
-// If you only care about the number, simply pass NTOP(n) as the path.
+// If you only care about the number, simply pass ToPath(n) as the path.
 func PrefixFind(n *big.Int, p []bool) []uint {
 	// TODO: does this always work for even larger paths?
-	if utils.PTON(p).Cmp(n) != 0 {
+	if utils.FromPath(p).Cmp(n) != 0 {
 		panic("Path does not match the number")
 	}
 

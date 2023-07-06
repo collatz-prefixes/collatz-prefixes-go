@@ -28,11 +28,14 @@ func TestPath(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !equals.Bools(NTOP(test.n), test.p) {
-			t.Errorf("Wrong path from number.")
+		p := ToPath(test.n)
+		if !equals.Bools(p, test.p) {
+			t.Errorf("Wrong path from number.\t%v != %v", test.p, p)
 		}
-		if PTON(test.p).Cmp(test.n) != 0 {
-			t.Errorf("Wrong number from path.")
+
+		n := FromPath(test.p)
+		if n.Cmp(test.n) != 0 {
+			t.Errorf("Wrong number from path.\t%v != %v", test.n, n)
 		}
 	}
 }
@@ -49,10 +52,10 @@ func TestBinary(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		if !equals.Bools(NTOB(test.n), test.b) {
+		if !equals.Bools(ToBinary(test.n), test.b) {
 			t.Errorf("Wrong binary from number.")
 		}
-		if BTON(test.b).Cmp(test.n) != 0 {
+		if FromBinary(test.b).Cmp(test.n) != 0 {
 			t.Errorf("Wrong number from binary.")
 		}
 	}
@@ -76,14 +79,5 @@ func TestPow2(t *testing.T) {
 		if ISPOW2(test.no) {
 			t.Errorf("ISPOW2 failed.")
 		}
-	}
-}
-
-func TestBools(t *testing.T) {
-	if !equals.Bools(FLIP([]bool{false, false}), []bool{true, true}) {
-		t.Errorf("FLIP failed.")
-	}
-	if !equals.Bools(REVERSE([]bool{false, true}), []bool{true, false}) {
-		t.Errorf("REVERSE failed.")
 	}
 }

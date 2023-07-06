@@ -29,7 +29,7 @@ func TestPiptree(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		pf := PrefixFind(test.n, utils.NTOP(test.n))
+		pf := PrefixFind(test.n, utils.ToPath(test.n))
 
 		if !equals.Uints(pf, test.pf) {
 			t.Errorf("Wrong prefix.")

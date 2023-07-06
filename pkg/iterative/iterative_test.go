@@ -22,6 +22,7 @@ func TestIteratives(t *testing.T) {
 	}
 
 	for _, test := range cases {
+
 		test_ecf := collatz.ECF(test.n)
 
 		ecf_pf_rip := Prefix(test.n, riptree.PrefixFind)
